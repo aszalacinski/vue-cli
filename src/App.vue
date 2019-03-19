@@ -2,7 +2,10 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-12">
-        <app-quote></app-quote>
+        <app-quote>
+          <h2>{{ quoteTitle }}</h2>
+          <p>A wonderful quote!</p>
+        </app-quote>
       </div>
     </div>
   </div>
@@ -12,12 +15,18 @@
 import Quote from './components/Quote.vue'
 
 export default {
+  data: function() {
+    return {
+      quoteTitle: 'The Quote'
+    }
+  },
   components: {
     'app-quote': Quote
   }
 }
 </script>
 
-<style>
+<style scoped>
+
 
 </style>

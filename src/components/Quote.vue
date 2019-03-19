@@ -1,11 +1,11 @@
 <template>
     <div>
-        <p>A wonderful quote!</p>
+        <slot></slot>
     </div>
 </template>
 
 <script>
-
+    export default {}
 </script>
 
 <style scoped>
@@ -15,5 +15,9 @@
         padding: 30px;
         margin: 30px auto;
         text-align: center;
+    }
+    
+    h2 {
+        color: red;
     }
 </style>
