@@ -4,13 +4,19 @@
         <p>Many Details</p>
         <p>User Name: {{ switchName() }}</p>
         <button @click="resetName">Reset Name</button>
+        <button @click="resetFn()">Reset Name</button>
     </div>
 </template>
 
 <script>
     export default {
         props: {
-            myName: String
+            myName: {
+                type: String
+            },
+            resetFn: {
+                type: Function
+            }
         },
         methods: {
             switchName: function() {
