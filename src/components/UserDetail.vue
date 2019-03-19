@@ -3,19 +3,22 @@
         <h3>You may view the User Details here</h3>
         <p>Many Details</p>
         <p>User Name: {{ switchName() }}</p>
+        <button @click="resetName">Reset Name</button>
     </div>
 </template>
 
 <script>
     export default {
         props: {
-            myName: String,
-            required: true,
-            default: 'Default'
+            myName: String
         },
         methods: {
-            switchName() {
+            switchName: function() {
                 return this.myName.split("").reverse().join("");
+            },
+            resetName: function() {
+                this.myName = 'Aarron';
+                this.$emit('nameWasReset', this.myName);
             }
         }
     }
