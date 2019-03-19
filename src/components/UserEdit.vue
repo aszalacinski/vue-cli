@@ -16,7 +16,8 @@
             editAge: function() {
                 this.userAge = 30;
                 //this.$emit('ageWasEdited', this.userAge);
-                eventBus.$emit('ageWasEdited', this.userAge);
+                //eventBus.$emit('ageWasEdited', this.userAge);
+                eventBus.chageAge(this.userAge);
             }
         }
     }
