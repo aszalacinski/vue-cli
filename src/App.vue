@@ -11,10 +11,11 @@
           <h2 slot="title">{{ quoteTitle }}</h2>
           <p>A wonderful quote!</p>
         </app-quote> -->
-        <component :is="selectedComponent">
-          
-          <p>Default Content</p>
-        </component>
+        <keep-alive>
+          <component :is="selectedComponent">
+            <p>Default Content</p>
+          </component>
+        </keep-alive>
       </div>
     </div>
   </div>
