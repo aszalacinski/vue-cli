@@ -9,7 +9,7 @@
             <hr>
             <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
                 <h1>Custom Directives</h1>
-                <p v-highlight="'red'">Color this</p>
+                <p v-highlight:background="'red'">Color this</p>
             </div>
         </div>
     </div>
