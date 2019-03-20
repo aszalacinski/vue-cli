@@ -34,7 +34,10 @@ export default {
   components: {
     appList: List
   },
-  mixins: [fruitMixin]
+  mixins: [fruitMixin],
+  created() {
+    console.log('App Created');
+  }
 
 }
 </script>
