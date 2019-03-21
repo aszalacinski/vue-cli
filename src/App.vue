@@ -7,12 +7,14 @@
         <button class="btn btn-primary" @click="show = !show">Show Alert</button>
         <br><br>
         <transition name="fade">
-          <div class="alert alert-info" v-if="show">This is some info</div>
-        </transition>
-        
+          <div class="alert alert-info" v-show="show">This is some info</div>
+        </transition>        
         <transition name="slide" type="animation">
           <div class="alert alert-info" v-if="show">This is some info</div>
         </transition>
+        <transition name="fade" appear>
+          <div class="alert alert-info" v-if="show">This is some info</div>
+        </transition>        
       </div>
     </div>
   </div>
@@ -22,7 +24,7 @@
 export default { 
   data() {
     return {
-      show: false
+      show: true
     }
   }
 }
@@ -61,7 +63,7 @@ export default {
 
   .slide-leave-active {
     animation: slide-out 1s ease-out forwards;
-    transition: opacity 1s;
+    transition: opacity 3s;
     opacity: 0;
   }
 
