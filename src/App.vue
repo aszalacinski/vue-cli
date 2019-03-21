@@ -71,7 +71,7 @@ export default {
       console.log('enter');
       done();
     },
-    afterEner(el) {
+    afterEnter(el) {
       console.log('afterEnter');
     },
     enterCancelled(el) {
