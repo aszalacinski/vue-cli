@@ -29,7 +29,12 @@ export default {
   },
   methods: {
     submit() {
-      console.log(this.user);
+      this.$http.post('https://vuejs-http-57a0f.firebaseio.com/data.json', this.user)
+        .then(response => {
+          console.log(response)
+        }, error => {
+          console.log(error)
+        });
     }
   }
 }
