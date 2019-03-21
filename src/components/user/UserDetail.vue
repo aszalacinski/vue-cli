@@ -2,7 +2,7 @@
     <div>
         <h3>Some User Details</h3>
         <p>User loaded has ID: {{ id }} </p>
-        <router-link tag="button" :to="'/user/' + id + '/edit'" class="btn btn-primary">Edit User</router-link>
+        <router-link tag="button" :to="{ name: 'userEdit' }" class="btn btn-primary">Edit User</router-link>
     </div>
 </template>
 
