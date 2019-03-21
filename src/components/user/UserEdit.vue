@@ -4,6 +4,8 @@
         <p>Editing User {{ id }}</p>
         <p>Locale: {{ $route.query.locale }}</p>
         <p>Analytics: {{ $route.query.q }}</p>
+        <div style="height: 700px"></div>
+        <p id="data">Some extra data</p>
     </div>
 </template>
 <script>
