@@ -4,7 +4,7 @@ import App from './App.vue';
 
 Vue.use(VueResource);
 
-Vue.http.options.root = 'https://vuejs-http-57a0f.firebaseio.com/data.json';
+Vue.http.options.root = 'https://vuejs-http-57a0f.firebaseio.com/';
 // set default headers here for all requests, etc
 
 Vue.http.interceptors.push((request, next) => {
