@@ -9,24 +9,43 @@ export default new Vuex.Store({
     idToken: null,
     userId: null
   },
-  mutations: {},
+  mutations: {
+    authUser(state, userData) {
+      state.idToken = userData.token;
+      state.userId = userData.userId;
+    }
+  },
   actions: {
     signup({ commit }, authData) {
-      axios.post("/signupNewUser?key=AIzaSyBkrpRnt9-7D3wv9yEe8EIV3IUZfYpeZOY", {
+      axios
+        .post("/signupNewUser?key=AIzaSyBkrpRnt9-7D3wv9yEe8EIV3IUZfYpeZOY", {
           email: authData.email,
           password: authData.password,
           returnSecureToken: true
         })
-        .then(res => console.log(res))
+        .then(res => {
+          console.log(res);
+          commit("authUser", {
+            token: res.data.idToken,
+            userId: res.data.localId
+          });
+        })
         .catch(error => console.log(error));
     },
     login({ commit }, authData) {
-      axios.post("/verifyPassword?key=AIzaSyBkrpRnt9-7D3wv9yEe8EIV3IUZfYpeZOY", {
+      axios
+        .post("/verifyPassword?key=AIzaSyBkrpRnt9-7D3wv9yEe8EIV3IUZfYpeZOY", {
           email: authData.email,
           password: authData.password,
           returnSecureToken: true
         })
-        .then(res => console.log(res))
+        .then(res => {
+          console.log(res);
+          commit("authUser", {
+            token: res.data.idToken,
+            userId: res.data.localId
+          });
+        })
         .catch(error => console.log(error));
     }
   },
