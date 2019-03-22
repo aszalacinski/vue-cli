@@ -1,6 +1,6 @@
 <template>
     <div>
-        <app-stock v-for="stock in stocks" :key="stock.id"></app-stock>
+        <app-stock v-for="stock in stocks" :key="stock.id" :stock="stock"></app-stock>
     </div>
 </template>
 <script>
