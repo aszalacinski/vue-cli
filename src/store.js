@@ -1,19 +1,34 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
+import axios from "./axios-auth";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-
+    idToken: null,
+    userId: null
   },
-  mutations: {
-
-  },
+  mutations: {},
   actions: {
-
+    signup({ commit }, authData) {
+      axios.post("/signupNewUser?key=AIzaSyBkrpRnt9-7D3wv9yEe8EIV3IUZfYpeZOY", {
+          email: authData.email,
+          password: authData.password,
+          returnSecureToken: true
+        })
+        .then(res => console.log(res))
+        .catch(error => console.log(error));
+    },
+    login({ commit }, authData) {
+      axios.post("/verifyPassword?key=AIzaSyBkrpRnt9-7D3wv9yEe8EIV3IUZfYpeZOY", {
+          email: authData.email,
+          password: authData.password,
+          returnSecureToken: true
+        })
+        .then(res => console.log(res))
+        .catch(error => console.log(error));
+    }
   },
-  getters: {
-
-  }
-})
+  getters: {}
+});
