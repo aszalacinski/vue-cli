@@ -55,6 +55,15 @@ export default new Vuex.Store({
               userId: res.data.localId,
               email: authData.email
             });
+            
+            const now = new Date();
+            const expirationDate = new Date(now.getTime() + (res.data.expiresIn * 1000));
+            
+            localStorage.setItem('token', res.data.idToken);
+            localStorage.setItem('expiresIn', expirationDate);
+            localStorage.setItem('userId', res.data.localId);
+            localStorage.setItem('email', authData.email);
+            
             dispatch("storeUser", authData)
             .then(resolve());
           })
@@ -80,6 +89,15 @@ export default new Vuex.Store({
               userId: res.data.localId,
               email: authData.email
             });
+
+            const now = new Date();
+            const expirationDate = new Date(now.getTime() + (res.data.expiresIn * 1000));
+            
+            localStorage.setItem('token', res.data.idToken);
+            localStorage.setItem('expirationDate', expirationDate);
+            localStorage.setItem('userId', res.data.localId);
+            localStorage.setItem('email', authData.email);
+
             resolve();
           })
           .catch(error => {
@@ -88,9 +106,38 @@ export default new Vuex.Store({
           });
       });
     },
+    tryAutoLogin({commit}) {
+      return new Promise((resolve, reject) => {
+        const token = localStorage.getItem('token');
+        if(!token) {
+          reject(new Error('No token stored; need to login'));
+          return;
+        }
+        const expirationDate = localStorage.getItem('expirationDate');
+        const now = new Date();
+        if(now >= expirationDate) {
+          reject(new Error('Token is expired; need to login'));
+          return;
+        }
+
+        const userId = localStorage.getItem('userId');
+        const email = localStorage.getItem('email');
+
+        commit('authUser', {
+          token: token,
+          userId: userId,
+          email: email
+        });
+        resolve();
+      })
+    },
     logout({ commit }) {
       return new Promise((resolve, reject) => {
         commit('clearAuthData');
+        localStorage.removeItem('expirationDate');
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('email');
         resolve();
       })
     },

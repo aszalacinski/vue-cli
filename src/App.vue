@@ -11,6 +11,15 @@
     name: 'app',
     components: {
       'app-header': Header
+    },
+    created() {
+      this.$store.dispatch('tryAutoLogin')
+        .then(result => {
+          this.$router.push({ name: 'dash'});
+        }, err => {
+          console.log(err.message);
+          this.$router.push('/signin');
+        })
     }
   }
 </script>
