@@ -105,7 +105,14 @@
           terms: this.terms
         }
         console.log(formData)
-        this.$store.dispatch('signup', formData);
+        this.$store.dispatch('signup', formData)
+          .then(() => {
+            if(this.$store.state.idToken) {
+              this.$router.push({name: 'dash'})
+            } else {
+              this.$router.push('/');
+            }
+          });
       }
     }
   }

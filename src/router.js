@@ -15,13 +15,17 @@ const routes = [
   { path: '/signup', component: SignupPage },
   { path: '/signin', component: SigninPage },
   {
-    path: '/dashboard', component: DashboardPage, beforeEnter (to, from, next) {
+    path: '/dashboard', 
+    name: 'dash',
+    component: DashboardPage, 
+    beforeEnter (to, from, next) {
       if(store.state.idToken) {
         next();
       } else {
         next('/signin');
       }
     }
+    
   }
 ]
 

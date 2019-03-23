@@ -20,51 +20,86 @@ export default new Vuex.Store({
     },
     storeUser(state, user) {
       state.user = user;
+    },
+    clearAuthData(state) {
+      state.idToken = null;
+      state.userId = null;
+      state.email = null;
+      state.user = null;
     }
   },
   actions: {
     signup({ commit, dispatch }, authData) {
-      axios
-        .post("/signupNewUser?key=AIzaSyBkrpRnt9-7D3wv9yEe8EIV3IUZfYpeZOY", {
-          email: authData.email,
-          password: authData.password,
-          returnSecureToken: true
-        })
-        .then(res => {
-          console.log(res);
-          commit("authUser", {
-            token: res.data.idToken,
-            userId: res.data.localId
+      return new Promise((resolve, reject) => {
+        axios
+          .post("/signupNewUser?key=AIzaSyBkrpRnt9-7D3wv9yEe8EIV3IUZfYpeZOY", {
+            email: authData.email,
+            password: authData.password,
+            returnSecureToken: true
+          })
+          .then(res => {
+            console.log(res);
+            commit("authUser", {
+              token: res.data.idToken,
+              userId: res.data.localId,
+              email: authData.email
+            });
+            dispatch("storeUser", authData)
+            .then(resolve());
+          })
+          .catch(error => {
+            console.log(error)
+            reject(error);
           });
-          dispatch("storeUser", authData);
-        })
-        .catch(error => console.log(error));
+      });
     },
     login({ commit }, authData) {
-      axios
-        .post("/verifyPassword?key=AIzaSyBkrpRnt9-7D3wv9yEe8EIV3IUZfYpeZOY", {
-          email: authData.email,
-          password: authData.password,
-          returnSecureToken: true
-        })
-        .then(res => {
-          console.log(res);
-          commit("authUser", {
-            token: res.data.idToken,
-            userId: res.data.localId,
-            email: authData.email
+      return new Promise((resolve, reject) => {
+        axios
+          .post("/verifyPassword?key=AIzaSyBkrpRnt9-7D3wv9yEe8EIV3IUZfYpeZOY", {
+            email: authData.email,
+            password: authData.password,
+            returnSecureToken: true
+          })
+          .then(res => {
+            console.log(res);
+            commit("authUser", {
+              token: res.data.idToken,
+              userId: res.data.localId,
+              email: authData.email
+            });
+            resolve();
+          })
+          .catch(error => {
+            console.log(error);
+            reject();
           });
-        })
-        .catch(error => console.log(error));
+      });
+    },
+    logout({ commit }) {
+      return new Promise((resolve, reject) => {
+        commit('clearAuthData');
+        resolve();
+      })
     },
     storeUser({ commit, state }, userData) {
-      if (!state.idToken) {
-        return;
-      }
-      globalAxios
-        .post("/users.json" + '?auth=' + state.idToken, userData)
-        .then(res => console.log(res))
-        .catch(error => console.log(error));
+      new Promise((resolve, reject) => {
+        if (!state.idToken) {
+          reject(new Error('Must login'));
+          return;
+        }
+        globalAxios
+          .post("/users.json" + '?auth=' + state.idToken, userData)
+          .then(res => {
+            console.log(res);
+            resolve();
+          })
+          .catch(error => {
+            console.log(error)
+            reject(new Error('Error with storeUser'));
+          });
+      });
+      
     },
     fetchUser({ commit, state }) {
       if (!state.idToken) {
