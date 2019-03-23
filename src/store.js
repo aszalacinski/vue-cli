@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from "./axios-auth";
 import globalAxios from "axios";
+import router from './router';
 
 Vue.use(Vuex);
 
@@ -29,6 +30,15 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    setLogoutTimer({commit}, expirationTime) {
+      setTimeout(() => {
+        commit('clearAuthData')
+        router.replace('/signin');
+        // emit a logout event and have a global component handle the redirect
+        //this._vm.$emit('logout-event');
+      }, expirationTime * 1000);
+      
+    },
     signup({ commit, dispatch }, authData) {
       return new Promise((resolve, reject) => {
         axios
@@ -39,6 +49,7 @@ export default new Vuex.Store({
           })
           .then(res => {
             console.log(res);
+            dispatch('setLogoutTimer', res.data.expiresIn);
             commit("authUser", {
               token: res.data.idToken,
               userId: res.data.localId,
@@ -53,7 +64,7 @@ export default new Vuex.Store({
           });
       });
     },
-    login({ commit }, authData) {
+    login({ commit, dispatch }, authData) {
       return new Promise((resolve, reject) => {
         axios
           .post("/verifyPassword?key=AIzaSyBkrpRnt9-7D3wv9yEe8EIV3IUZfYpeZOY", {
@@ -63,6 +74,7 @@ export default new Vuex.Store({
           })
           .then(res => {
             console.log(res);
+            dispatch('setLogoutTimer', res.data.expiresIn);
             commit("authUser", {
               token: res.data.idToken,
               userId: res.data.localId,
