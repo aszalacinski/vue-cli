@@ -4,7 +4,7 @@
             <form @submit.prevent="onSubmit">
                 <div class="input" :class="{invalid: $v.email.$error}">
                     <label for="email">Mail</label>
-                    <input type="email" id="email" v-model="email" @input="$v.email.$touch()">
+                    <input type="email" id="email" v-model="email" @blur="$v.email.$touch()">
                     <p v-if="!$v.email.email">Please provide a valid email address.</p>
                     <p v-if="!$v.email.required">Email is a required field.</p>
                 </div>
