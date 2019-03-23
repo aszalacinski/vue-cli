@@ -11,15 +11,17 @@
                 <div class="input" :class="{invalid: $v.age.$error}">
                     <label for="age">Your Age</label>
                     <input type="number" id="age" v-model.number="age" @blur="$v.age.$touch()">
-                    <p v-if="!$v.age.minVal">You have to be at least {{ $v.age.$params.minVal.min }} years old.</p>
+                    <p
+                        v-if="!$v.age.minVal"
+                    >You have to be at least {{ $v.age.$params.minVal.min }} years old.</p>
                 </div>
-                <div class="input">
+                <div class="input" :class="{invalid: $v.password.$error}">
                     <label for="password">Password</label>
-                    <input type="password" id="password" v-model="password">
+                    <input type="password" id="password" v-model="password" @blur="$v.password.$touch()">
                 </div>
-                <div class="input">
+                <div class="input" :class="{invalid: $v.confirmPassword.$error}">
                     <label for="confirm-password">Confirm Password</label>
-                    <input type="password" id="confirm-password" v-model="confirmPassword">
+                    <input type="password" id="confirm-password" v-model="confirmPassword" @blur="$v.confirmPassword.$touch()">
                 </div>
                 <div class="input">
                     <label for="country">Country</label>
@@ -58,7 +60,14 @@
 </template>
 
 <script>
-import { required, email, numeric, minValue } from "vuelidate/lib/validators";
+import {
+    required,
+    email,
+    numeric,
+    minValue,
+    minLength,
+    sameAs
+} from "vuelidate/lib/validators";
 
 export default {
     data() {
@@ -81,6 +90,18 @@ export default {
             required,
             numeric,
             minVal: minValue(18)
+        },
+        password: {
+            required,
+            minLen: minLength(6)
+        },
+        confirmPassword: {
+          //sameAs: sameAs('password')
+          sameAs: sameAs(vm => {
+            // could use it to check to make sure an old password hasn't been used..
+            // would ahve to tie to the user maangement system
+            return vm.password
+          })
         }
     },
     methods: {
@@ -161,12 +182,12 @@ export default {
 }
 
 .input.invalid label {
-  color: red;
+    color: red;
 }
 
 .input.invalid input {
-  border: 1px solid red;
-  background-color: #ffc9aa;
+    border: 1px solid red;
+    background-color: #ffc9aa;
 }
 
 .input select {
