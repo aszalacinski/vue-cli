@@ -17,11 +17,21 @@
                 </div>
                 <div class="input" :class="{invalid: $v.password.$error}">
                     <label for="password">Password</label>
-                    <input type="password" id="password" v-model="password" @blur="$v.password.$touch()">
+                    <input
+                        type="password"
+                        id="password"
+                        v-model="password"
+                        @blur="$v.password.$touch()"
+                    >
                 </div>
                 <div class="input" :class="{invalid: $v.confirmPassword.$error}">
                     <label for="confirm-password">Confirm Password</label>
-                    <input type="password" id="confirm-password" v-model="confirmPassword" @blur="$v.confirmPassword.$touch()">
+                    <input
+                        type="password"
+                        id="confirm-password"
+                        v-model="confirmPassword"
+                        @blur="$v.confirmPassword.$touch()"
+                    >
                 </div>
                 <div class="input">
                     <label for="country">Country</label>
@@ -47,8 +57,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="input inline">
-                    <input type="checkbox" id="terms" v-model="terms">
+                <div class="input inline" :class="{invalid: $v.terms.$error}">
+                    <input type="checkbox" id="terms" v-model="terms" @change="$v.terms.$touch()">
                     <label for="terms">Accept Terms of Use</label>
                 </div>
                 <div class="submit">
@@ -96,12 +106,15 @@ export default {
             minLen: minLength(6)
         },
         confirmPassword: {
-          //sameAs: sameAs('password')
-          sameAs: sameAs(vm => {
-            // could use it to check to make sure an old password hasn't been used..
-            // would ahve to tie to the user maangement system
-            return vm.password
-          })
+            //sameAs: sameAs('password')
+            sameAs: sameAs(vm => {
+                // could use it to check to make sure an old password hasn't been used..
+                // would ahve to tie to the user maangement system
+                return vm.password;
+            })
+        },
+        terms: {
+          required
         }
     },
     methods: {
